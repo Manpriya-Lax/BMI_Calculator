@@ -12,9 +12,27 @@ class _BMIcalState extends State<BMIcal> {
 
 bool isMale = true;
 double height = 187.0;
-int weight = 80;
+int weight = 70;
 int age = 24;
   
+
+  double calculateBMI({required int weight, required double height}) {
+    double heightInMeters = height / 100;
+    double bmi = weight / (heightInMeters * heightInMeters);
+    return bmi;
+  }
+
+  Color BMIColor(double bmi) {
+    if (bmi < 18.5) {
+      return Colors.blue; // Underweight
+    } else if (bmi >= 18.5 && bmi < 24.9) {
+      return Colors.green; // Normal weight
+    } else if (bmi >= 25 && bmi < 29.9) {
+      return Colors.orange; // Overweight
+    } else {
+      return Colors.red; // Obesity
+    }
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -56,7 +74,7 @@ int age = 24;
       child: const Column(
         children: [
           Icon(Icons.male, size: 50, color: sTextcolor),
-          Text("Male", style: TextStyle(fontSize: 40, color: sTextcolor)),
+          Text("Male", style: TextStyle(fontSize: 20, color: sTextcolor)),
         ],
       ),
     ),
@@ -78,7 +96,7 @@ int age = 24;
       child: const Column(
         children: [
           Icon(Icons.female, size: 50, color: sTextcolor),
-          Text("Female", style: TextStyle(fontSize: 40, color: sTextcolor)),
+          Text("Female", style: TextStyle(fontSize: 20, color: sTextcolor)),
         ],
       ),
     ),
@@ -92,7 +110,7 @@ int age = 24;
                   
                 ),
 
-                const SizedBox(height: 50,),
+                const SizedBox(height: 20,),
 
 
                 Container(
@@ -105,17 +123,26 @@ int age = 24;
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text( "187 ",style: TextStyle(fontSize: 40 ,fontWeight: FontWeight.bold,color: sTextcolor),),
+                          Text(  height.toStringAsFixed(2),style: TextStyle(fontSize: 40 ,fontWeight: FontWeight.bold,color: sTextcolor),),
                           Text(" cm", style: TextStyle(color: sTextcolor,fontSize: 30),),
                   
                         ],
                       ),
-                      Slider(min:100.0,max:200.0, value: 187.0 , onChanged: (value){}),
+                      Slider(
+                        min:100.0,
+                        max:200.0,
+                         value: height ,
+                          onChanged: (value){
+                            setState(() {
+                              height = value;
+                            });
+                          }
+                          ),
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 50,),
+                const SizedBox(height: 20,),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -128,12 +155,22 @@ int age = 24;
                         child: Column(
                           children: [
                             Text("weight" , style: TextStyle(fontSize: 20,color: sTextcolor)),
-                            Text(" 80 " , style: TextStyle(fontSize: 40 , fontWeight: FontWeight.bold,color: sTextcolor)),
+                            Text(" $weight " , style: TextStyle(fontSize: 40 , fontWeight: FontWeight.bold,color: sTextcolor)),
                             Row (
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                              ElevatedButton(onPressed: (){}, child: Text("-")),
-                              ElevatedButton(onPressed: (){}, child: Text("+")),
+                              ElevatedButton(onPressed: (){
+                                setState(() {
+                                  if (weight > 10)
+                                  weight--;
+                                });
+                              }, child: Text("-")),
+                              ElevatedButton(onPressed: (){
+                                setState(() {
+                                  if (weight < 300)
+                                  weight++;
+                                });
+                              }, child: Text("+")),
                         
                         
                             ],)
@@ -152,12 +189,22 @@ int age = 24;
                         child: Column(
                           children: [
                             Text("Age" ,style: TextStyle(fontSize: 20,color: sTextcolor)),
-                            Text(" 24 " ,  style: TextStyle(fontSize: 40 , fontWeight: FontWeight.bold,color: sTextcolor)),
+                            Text(" $age " ,  style: TextStyle(fontSize: 40 , fontWeight: FontWeight.bold,color: sTextcolor)),
                             Row (
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                              ElevatedButton(onPressed: (){}, child: Icon(  Icons.remove)),
-                              ElevatedButton(onPressed: (){}, child: Icon(Icons.add)),
+                              ElevatedButton(onPressed: (){
+                                setState(() {
+                                  if (age > 1)
+                                  age--;
+                                });
+                              }, child: Icon(  Icons.remove)),
+                              ElevatedButton(onPressed: (){
+                                setState(() {
+                                  if (age < 120)
+                                  age++;
+                                });
+                              }, child: Icon(Icons.add)),
                         
                         
                             ],)
@@ -173,8 +220,25 @@ int age = 24;
 
               ],
                          ),
-              SizedBox(height: 50,),
-            ElevatedButton(onPressed:() {}, child: Text("calculate BMI"))
+              SizedBox(height: 20,),
+
+              Container(
+                decoration: kboxdecoration,
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Text("Your BMI is:" , style: TextStyle(color: sTextcolor,fontSize: 20),),
+                    Text( calculateBMI(weight: weight, height: height).toStringAsFixed(2),style: TextStyle(fontSize: 40 ,fontWeight: FontWeight.bold,color:BMIColor(calculateBMI(weight: weight, height: height)) ),),
+                  
+                  ],
+                ),  
+              ),
+
+               SizedBox(height: 20,),
+
+            // ElevatedButton(onPressed:() {
+            //   calculateBMI(weight: weight, height: height);
+            // }, child: Text("calculate BMI"))
           ],
         ),
       ),  
