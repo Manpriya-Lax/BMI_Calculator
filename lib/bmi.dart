@@ -9,8 +9,16 @@ class BMIcal extends StatefulWidget {
 }
 
 class _BMIcalState extends State<BMIcal> {
+
+bool isMale = true;
+double height = 187.0;
+int weight = 80;
+int age = 24;
+  
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Kbgcolor,
@@ -35,30 +43,48 @@ class _BMIcalState extends State<BMIcal> {
                   children: [
                    
                     Expanded(
-                      flex: 10,
-                      child: Container(
-                        decoration: kboxdecoration,
-                        padding: EdgeInsets.all(20),
-                        child:const Column(
-                          children: [
-                            Icon(Icons.male, size: 50, color: sTextcolor,), Text("Male", style: TextStyle(fontSize: 40, color: sTextcolor),)
-                          ],
-                        ),
-                      ),
-                    ),
+  flex: 10,
+  child: GestureDetector(
+    onTap: () {
+      setState(() {
+        isMale = true;
+      });
+    },
+    child: Container(
+      decoration: isMale ? kSelectboxdecoration : kboxdecoration,
+      padding: EdgeInsets.all(20),
+      child: const Column(
+        children: [
+          Icon(Icons.male, size: 50, color: sTextcolor),
+          Text("Male", style: TextStyle(fontSize: 40, color: sTextcolor)),
+        ],
+      ),
+    ),
+  ),
+),
+
                     const SizedBox(width: 20,),
                     Expanded(
-                      flex: 10,
-                      child: Container(
-                        decoration: kboxdecoration,
-                        padding: EdgeInsets.all(20),
-                        child: const Column(
-                          children: [
-                            Icon(Icons.female, size: 50,color: sTextcolor,), Text("Female", style: TextStyle(fontSize: 40, color: sTextcolor),)
-                          ],
-                        ),
-                      ),
-                    )
+  flex: 10,
+  child: GestureDetector(
+    onTap: () {
+      setState(() {
+        isMale = false;
+      });
+    },
+    child: Container(
+      decoration: !isMale ? kSelectboxdecoration : kboxdecoration,
+      padding: EdgeInsets.all(20),
+      child: const Column(
+        children: [
+          Icon(Icons.female, size: 50, color: sTextcolor),
+          Text("Female", style: TextStyle(fontSize: 40, color: sTextcolor)),
+        ],
+      ),
+    ),
+  ),
+),
+
                     
                   
                   ],
