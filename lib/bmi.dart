@@ -1,4 +1,5 @@
 import 'package:bmi/constant.dart';
+import 'package:bmi/genderWidget.dart';
 import 'package:flutter/material.dart';
 
 class BMIcal extends StatefulWidget {
@@ -62,45 +63,29 @@ int age = 24;
                    
                     Expanded(
   flex: 10,
-  child: GestureDetector(
-    onTap: () {
-      setState(() {
-        isMale = true;
-      });
-    },
-    child: Container(
-      decoration: isMale ? kSelectboxdecoration : kboxdecoration,
-      padding: EdgeInsets.all(20),
-      child: const Column(
-        children: [
-          Icon(Icons.male, size: 50, color: sTextcolor),
-          Text("Male", style: TextStyle(fontSize: 20, color: sTextcolor)),
-        ],
-      ),
-    ),
-  ),
+  child: genderwidget(isMale: isMale,
+   text: "Male",
+    icon: Icons.male,
+     onTap: (){
+    setState(() {
+      isMale = true;
+      
+    });
+  },
+),
 ),
 
                     const SizedBox(width: 20,),
                     Expanded(
   flex: 10,
-  child: GestureDetector(
-    onTap: () {
-      setState(() {
-        isMale = false;
-      });
-    },
-    child: Container(
-      decoration: !isMale ? kSelectboxdecoration : kboxdecoration,
-      padding: EdgeInsets.all(20),
-      child: const Column(
-        children: [
-          Icon(Icons.female, size: 50, color: sTextcolor),
-          Text("Female", style: TextStyle(fontSize: 20, color: sTextcolor)),
-        ],
-      ),
-    ),
-  ),
+  child: genderwidget(isMale: !isMale,
+  text: "Female",
+   icon: Icons.female,
+   onTap: (){
+    setState(() {
+      isMale = false;
+    });
+  }),
 ),
 
                     
